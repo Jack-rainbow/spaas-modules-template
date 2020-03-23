@@ -1,0 +1,8 @@
+[defaults]
+url = https://sentry.io
+org = FE  # 组织名
+project = fe-ng # 项目名
+
+[auth]
+token = eca464640b0a414bb7910f4dc0e8cccd3f6c9055b76a4ef28c6091efd9107a46 
+# sentry --api--生成的token

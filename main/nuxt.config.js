@@ -2,11 +2,12 @@
  * @Description: nuxt 配置文件
  * @Author: barret
  * @Date: 2019-08-10 07:57:24
- * @LastEditTime: 2020-02-19 11:51:03
+ * @LastEditTime: 2020-03-19 18:39:44
  * @LastEditors: Please set LastEditors
  */
 require('dotenv').config();
 const proxyConfig = require('../proxy.config.ts');
+// const SentryCliPlugin = require('@sentry/webpack-plugin'); //todo 待接入
 const path = require('path');
 // 添加扩展路由
 const fg = require('fast-glob');

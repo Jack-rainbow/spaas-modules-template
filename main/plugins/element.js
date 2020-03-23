@@ -89,3 +89,17 @@ Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$message = Message;
+
+
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
+
+if (process.env.NODE_ENV === 'production') { //只在生产环境使用
+  Sentry.init({
+    dsn: 'https://356b5641a091425784bb26f67b2b887c@sentry.io/5167222',
+    integrations: [new Integrations.Vue({
+      Vue,
+      attachProps: true
+    })],
+  });
+}
