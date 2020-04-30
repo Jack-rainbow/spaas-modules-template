@@ -5,11 +5,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'CopyRight',
-};
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+
+@Component({
+  name: 'CopyRight'
+})
+export default class extends Vue {}
 </script>
+
 <style scoped>
 .copyright {
   color: rgba(0, 0, 0, 0.45);

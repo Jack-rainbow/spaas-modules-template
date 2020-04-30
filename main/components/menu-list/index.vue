@@ -5,26 +5,20 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator';
-import MenuItem from './src/menu-item';
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import MenuItem from './menu-item.vue'
 
 @Component({
+  name: 'MenuList',
   components: {
-    MenuItem,
-  },
+    MenuItem
+  }
 })
 export default class MenuList extends Vue {
-  static ComponentName = 'MenuList';
-
-  @Prop({
-    type: Array,
-    default() {
-      return [];
-    },
-  })
-  readonly menuList;
+  @Prop({ default: () => [] }) private menuList!: any[];
 }
 </script>
+
 <style lang="less">
 .menu-list {
   user-select: none;

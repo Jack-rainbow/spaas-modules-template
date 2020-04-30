@@ -8,53 +8,48 @@
 <template>
   <el-container direction="vertical">
     <!-- 头部导航 -->
-    <layout-head />
+    <LayoutHead />
     <el-container>
       <!-- 侧边栏 -->
-      <sidebar />
+      <Sidebar />
       <el-container class="main-container" direction="vertical">
         <!-- 页面 header -->
-        <v-breadcrumb v-if="hasHeader" class="nuxt-header main-breadcurmb"></v-breadcrumb>
-        <app-options v-if="hasAppOptions" @changeShowStatus="changeShowStatus"></app-options>
+        <VBreadcrumb v-if="hasHeader" class="nuxt-header main-breadcurmb"></VBreadcrumb>
+        <AppOptions v-if="hasAppOptions" @changeShowStatus="changeShowStatus"></AppOptions>
         <el-main class="nuxt-main">
           <div
             :class="{
               'nuxt-content': true,
               'medium-height': !hasHeader && !hasAppOptions,
               'small-height': hasHeader && !hasAppOptions,
-              'min-height': hasHeader && hasAppOptions,
+              'min-height': hasHeader && hasAppOptions
             }"
           >
             <nuxt></nuxt>
             <el-footer class="footer-container" height="40px">
-              <copyright></copyright>
+              <Copyright></Copyright>
             </el-footer>
           </div>
         </el-main>
       </el-container>
     </el-container>
 
-    <copy-module v-if="ifShowCopyModule" />
-    <right-panel v-if="ifNotProduction">
-      <settings />
-    </right-panel>
+    <CopyModule v-if="ifShowCopyModule" />
   </el-container>
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import Copyright from '@/components/copyright.vue';
-import LayoutHead from '@/components/layout-head.vue';
-import RightPanel from '@/components/RightPanel';
+import { mapState } from 'vuex'
+import Copyright from '@/components/copyright.vue'
+import LayoutHead from '@/components/layoutHead/index'
 
-import VBreadcrumb from './components/breadcrumb';
-import AppOptions from './components/app-options';
-import Settings from './components/settings';
-import Sidebar from './components/sidebar.vue';
-import CopyModule from './components/copy-module/index.vue';
+import VBreadcrumb from './components/breadcrumb'
+import AppOptions from './components/app-options'
+import Sidebar from './components/sidebar.vue'
+import CopyModule from './components/copy-module/index.vue'
 
-import breadCrumbMixin from '@/mixins/breadcrubMixin';
-import {hasSelectApp} from '../../../spaas.config';
+import breadCrumbMixin from '@/mixins/breadcrubMixin'
+import { hasSelectApp } from '../../../spaas.config'
 
 export default {
   components: {
@@ -63,51 +58,49 @@ export default {
     Sidebar,
     VBreadcrumb,
     AppOptions,
-    Settings,
-    RightPanel,
-    CopyModule,
+    CopyModule
   },
   mixins: [breadCrumbMixin],
   props: {
     ifNotProduction: {
       type: Boolean,
-      default: process.env.NODE_ENV !== 'production',
-    },
+      default: process.env.NODE_ENV !== 'production'
+    }
   },
   data() {
-    const {path, name} = this.$route;
+    const { path, name } = this.$route
     return {
       ifShowCopyModule: process.env.COPY_MODULE,
       showAppOptions: true,
       hasHeader: path !== '/' && name !== 'all',
-      hasAppOptions: hasSelectApp && path !== '/',
-    };
+      hasAppOptions: hasSelectApp && path !== '/'
+    }
   },
   computed: {
     ...mapState(['permission', 'setting']),
     appName() {
-      return this.permission.spaName;
-    },
+      return this.permission.spaName
+    }
   },
   watch: {
     $route: {
       handler() {
-        const {path, name} = this.$route;
-        this.hasHeader = path !== '/' && name !== 'all';
-        this.showAppOptions = true;
+        const { path, name } = this.$route
+        this.hasHeader = path !== '/' && name !== 'all'
+        this.showAppOptions = true
         this.$nextTick(() => {
-          this.hasAppOptions = hasSelectApp && path !== '/' && this.showAppOptions;
-        });
+          this.hasAppOptions = hasSelectApp && path !== '/' && this.showAppOptions
+        })
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   methods: {
     changeShowStatus(ifShow) {
-      this.showAppOptions = ifShow;
-    },
-  },
-};
+      this.showAppOptions = ifShow
+    }
+  }
+}
 </script>
 <style lang="less">
 #__nuxt {

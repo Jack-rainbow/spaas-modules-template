@@ -14,5 +14,11 @@ module.exports = {
     '/deepexi-cloud': apiServer,
     '/deepexi-domain-staff': apiServer,
     '/asset-service': apiServer,
+    '/petstore': {
+      target: 'http://127.0.0.1:8111',
+      pathRewrite: {
+        '^/petstore/': '/v2/',
+      },
+    },
   },
 };

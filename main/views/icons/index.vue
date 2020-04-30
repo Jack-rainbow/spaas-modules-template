@@ -43,31 +43,30 @@
 </template>
 
 <script lang="ts">
-import {Tabs, TabPane} from '@femessage/element-ui';
-import {Vue, Component, Emit} from 'vue-property-decorator';
-import clipboard from '~/utils/clipboard';
-import svgIcons from './svg-icons';
-import elementIcons from './element-icons';
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+import clipboard from '@/utils/clipboard'
+import svgIcons from './svg-icons'
+import elementIcons from './element-icons'
 
 @Component({
-  [Tabs.name]: Tabs,
-  [TabPane.name]: TabPane,
+  name: 'Icons'
 })
-export default class Icons extends Vue {
-  svgIcons = svgIcons;
-  elementIcons = elementIcons;
-  @Emit()
-  generateIconCode(symbol: string) {
-    return `<svg-icon icon-class="${symbol}" />`;
+export default class extends Vue {
+  svgIcons = '';
+  elementIcons = '';
+
+  generateIconCode(symbol) {
+    return `<svg-icon icon-class="${symbol}" />`
   }
-  @Emit()
-  generateElementIconCode(symbol: string) {
-    return `<i class="el-icon-${symbol}" />`;
+
+  generateElementIconCode(symbol) {
+    return `<i class="el-icon-${symbol}" />`
   }
-  @Emit()
-  handleClipboard(text: any, event: any) {
-    console.error(event);
-    clipboard(text, event);
+
+  handleClipboard(text, event) {
+    console.error(event)
+    clipboard(text, event)
   }
 }
 </script>

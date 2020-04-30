@@ -4,14 +4,14 @@
   </div>
 </template>
 
-<script>
-import NotExist from '../components/NotExist/index';
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+import NotExist from '@/components/NotExist/index.vue'
 
-export default {
-  components: {
-    NotExist,
-  },
-};
+Vue.component('NotExist', NotExist)
+
+@Component
+export default class _ extends Vue {}
 </script>
 
 <style lang="less" scoped>

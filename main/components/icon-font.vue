@@ -2,14 +2,12 @@
   <i :class="'iconfont ' + icon"></i>
 </template>
 
-<script>
-export default {
-  name: 'IconFont',
-  props: {
-    icon: {
-      type: String,
-    },
-  },
-};
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator'
+
+@Component
+export default class IconFont extends Vue {
+  @Prop() icon!: string;
+}
 </script>
 <style></style>

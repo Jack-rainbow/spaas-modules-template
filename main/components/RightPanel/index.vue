@@ -12,61 +12,112 @@
   </div>
 </template>
 
-<script lang="tsx">
-import {Vue, Component, Prop, Emit, Watch} from 'vue-property-decorator';
-import {addClass, removeClass} from '@/utils/utils.js';
+<script lang="ts">
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { addClass, removeClass } from '@/utils/utils'
 
+@Component
 export default class RightPanel extends Vue {
+  @Prop({ default: false }) private clickNotClose!: boolean;
+  @Prop({ default: 250 }) private buttonTop!: number;
+
   private show = false;
 
-  @Prop({default: false}) readonly clickNotClose: Boolean;
-
-  @Prop({default: 250}) readonly buttonTop: Number;
+  @Watch('show')
+  watchShow(value: any): void {
+    if (value && !this.clickNotClose) {
+      this.addEventClick()
+    }
+    if (value) {
+      addClass(document.body, 'showRightPanel')
+    } else {
+      removeClass(document.body, 'showRightPanel')
+    }
+  }
 
   mounted() {
-    this.insertToBody();
+    this.insertToBody()
   }
 
   beforeDestroy() {
-    const elx = this.$refs.rightPanel as any;
-    elx.remove();
+    const elx = this.$refs.rightPanel;
+    (elx as any).remove()
   }
 
-  @Emit()
-  addEventClick() {
-    window.addEventListener('click', this.closeSidebar);
+  private addEventClick() {
+    window.addEventListener('click', this.closeSidebar)
   }
 
-  @Emit()
-  closeSidebar(evt) {
-    const parent = evt.target.closest('.rightPanel');
+  private closeSidebar(evt) {
+    const parent = evt.target.closest('.rightPanel')
     if (!parent) {
-      this.show = false;
-      window.removeEventListener('click', this.closeSidebar);
+      this.show = false
+      window.removeEventListener('click', this.closeSidebar)
     }
   }
 
-  @Emit()
-  insertToBody() {
-    const elx = this.$refs.rightPanel as any;
-    const body = document.querySelector('body');
-    body.insertBefore(elx, body.firstChild);
-  }
-
-  @Watch('show')
-  @Emit()
-  // watch事件用on[xxx]Change 写
-  onshowChange(value: string): void {
-    if (value && !this.clickNotClose) {
-      this.addEventClick();
-    }
-    if (value) {
-      addClass(document.body, 'showRightPanel');
-    } else {
-      removeClass(document.body, 'showRightPanel');
-    }
+  private insertToBody() {
+    const elx: any = this.$refs.rightPanel
+    const body = document.querySelector('body')
+    body && body.insertBefore(elx, body.firstChild)
   }
 }
+// import {addClass, removeClass} from '@/utils/utils.js';
+
+// export default {
+//   name: 'RightPanel',
+//   props: {
+//     clickNotClose: {
+//       default: false,
+//       type: Boolean,
+//     },
+//     buttonTop: {
+//       default: 250,
+//       type: Number,
+//     },
+//   },
+//   data() {
+//     return {
+//       show: false,
+//     };
+//   },
+//   watch: {
+//     show(value) {
+//       if (value && !this.clickNotClose) {
+//         this.addEventClick();
+//       }
+//       if (value) {
+//         addClass(document.body, 'showRightPanel');
+//       } else {
+//         removeClass(document.body, 'showRightPanel');
+//       }
+//     },
+//   },
+//   mounted() {
+//     this.insertToBody();
+//   },
+//   beforeDestroy() {
+//     const elx = this.$refs.rightPanel;
+//     elx.remove();
+//   },
+//   methods: {
+//     addEventClick() {
+//       window.addEventListener('click', this.closeSidebar);
+//     },
+//     closeSidebar(evt) {
+//       const parent = evt.target.closest('.rightPanel');
+//       if (!parent) {
+//         this.show = false;
+//         window.removeEventListener('click', this.closeSidebar);
+//       }
+//     },
+//     insertToBody() {
+//       const elx = this.$refs.rightPanel;
+//       const body = document.querySelector('body');
+//       body.insertBefore(elx, body.firstChild);
+//     },
+//   },
+// };
 </script>
 
 <style>

@@ -8,7 +8,7 @@
       >
         <span
           class="link"
-          v-if="item.enable && index != $bcm_list.length - 1"
+          v-if="item.enable && index !== $bcm_list.length - 1"
           :to="{path: item.fullPath || item.path || item.redirectPath}"
           @click="handle2Path(item)"
         >
@@ -24,37 +24,32 @@
     </transition-group>
   </el-breadcrumb>
 </template>
-<script>
-import {Breadcrumb, BreadcrumbItem} from '@femessage/element-ui';
-import Render from './render';
+<script lang="ts">
+import { Vue, Component, Prop, Inject } from 'vue-property-decorator'
 
-export default {
+import Render from './render'
+
+@Component({
   name: 'VBreadcrumb',
-  inject: ['$bcm_list'],
-  props: {
-    separator: {
-      type: String,
-      default: '/',
-    },
-  },
   components: {
-    elBreadcrumb: Breadcrumb,
-    elBreadcrumbItem: BreadcrumbItem,
-    Render,
-  },
-  methods: {
-    handle2Path(data) {
-      const {fullPath, path, redirectPath} = data;
+    Render
+  }
+})
+export default class extends Vue {
+  @Prop({ default: '/' }) separator?: string;
+  @Inject('$bcm_list') '$bcm_list': any[];
 
-      this.$router.push({
-        path: fullPath || path || redirectPath,
-        query: {
-          ...this.$route.query,
-        },
-      });
-    },
-  },
-};
+  handle2Path(data) {
+    const { fullPath, path, redirectPath } = data
+
+    this.$router.push({
+      path: fullPath || path || redirectPath,
+      query: {
+        ...this.$route.query
+      }
+    })
+  }
+}
 </script>
 
 <style lang="less">

@@ -1,23 +1,55 @@
 module.exports = {
   root: true,
   env: {
-    browser: true,
     node: true,
   },
+  extends: ['plugin:vue/recommended', '@vue/standard', '@vue/typescript/recommended'],
   parserOptions: {
-    sourceType: 'module',
-    parser: 'babel-eslint',
+    ecmaVersion: 2020,
   },
-  globals: {
-    document: true,
-    localStorage: true,
-    window: true,
-    Vue: true,
-  },
-  extends: ['plugin:vue/essential', 'eslint-config-spaas', 'eslint-config-prettier'],
-  plugins: ['vue'],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    '@typescript-eslint/interface-name-prefix': ['error', {prefixWithI: 'always'}],
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'none',
+        },
+        singleline: {
+          delimiter: 'comma',
+        },
+      },
+    ],
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'space-before-function-paren': ['error', 'never'],
+    'vue/array-bracket-spacing': 'error',
+    'vue/arrow-spacing': 'error',
+    'vue/block-spacing': 'error',
+    'vue/brace-style': 'error',
+    'vue/camelcase': 'error',
+    'vue/comma-dangle': 'error',
+    'vue/component-name-in-template-casing': 'error',
+    'vue/eqeqeq': 'error',
+    'vue/key-spacing': 'error',
+    'vue/match-component-file-name': 'error',
+    'vue/object-curly-spacing': 'error',
+    '@typescript-eslint/no-var-requires': 'off',
+    'vue/camelcase': 'off',
+    '@typescript-eslint/class-name-casing': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    'no-useless-escape': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/consistent-type-assertions': 'off'
   },
+  overrides: [
+    {
+      files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };

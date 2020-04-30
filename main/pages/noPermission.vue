@@ -4,14 +4,16 @@
   </div>
 </template>
 
-<script>
-import NoPermission from '../components/NoPermission/index';
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+import NoPermission from '@/components/NoPermission/index.vue'
 
-export default {
+@Component({
   components: {
-    NoPermission,
-  },
-};
+    NoPermission
+  }
+})
+export default class NotPermission extends Vue {}
 </script>
 
 <style lang="less" scoped>

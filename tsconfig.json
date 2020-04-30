@@ -12,8 +12,10 @@
           "dom"
         ],
         "jsx": "preserve",
+        "jsxFactory": "h",
         "esModuleInterop": true,
-        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "allowJs": false,
         "sourceMap": true,
         "strict": true,
         "noEmit": true,
@@ -24,14 +26,26 @@
           "~/*": [
             "./*"
           ],
+          "@/*": [
+            "./*"
+          ],
         },
         "types": [
           "@types/node",
           "@nuxt/types",
-          "webpack-env",
+          "@nuxt/vue-app",
+          "@types/webpack-env",
         ]
       },
+      "include": [
+        "main/**/*.ts",
+        "main/**/*.tsx",
+        "main/**/*.vue",
+        "modules/**/*.ts",
+        "modules/**/*.tsx"
+      ],
       "exclude": [
-        "node_modules"
+        "node_modules",
+        "main/config/pont-template-nuxt.ts"
       ]
     }

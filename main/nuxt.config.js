@@ -2,58 +2,57 @@
  * @Description: nuxt 配置文件
  * @Author: barret
  * @Date: 2019-08-10 07:57:24
- * @LastEditTime: 2020-02-19 11:51:03
+ * @LastEditTime: 2020-03-19 15:08:09
  * @LastEditors: Please set LastEditors
  */
-require('dotenv').config();
-const proxyConfig = require('../proxy.config.ts');
-const path = require('path');
+require('dotenv').config()
+const proxyConfig = require('../proxy.config')
+const path = require('path')
 // 添加扩展路由
-const fg = require('fast-glob');
+const fg = require('fast-glob')
 
 function resolve(dir) {
-  return path.join(__dirname, dir);
+  return path.join(__dirname, dir)
 }
 
 ['PUBLIC_PATH', 'API_SERVER', 'COOKIE_PATH', 'NO_LOGIN'].forEach(key =>
-  console.log('%s\t: %s', key, process.env[key]),
-);
+  console.log('%s\t: %s', key, process.env[key])
+)
 
-const env = process.env;
-const isProd = env.MODE === 'prod';
+const env = process.env
+const isProd = env.MODE === 'prod'
 
-const publicPath = env.PUBLIC_PATH || './';
+const publicPath = env.PUBLIC_PATH || './'
 
-const filePath = fg.sync(resolve('../modules/**/router.js'), {
+const filePath = fg.sync(resolve('../modules/**/router.ts'), {
   deep: 2,
-  onlyFiles: true,
-});
+  onlyFiles: true
+})
 
 const routes = filePath.reduce((pre, cur) => {
-  // eslint-disable-next-line global-require
-  const file = require(cur).default;
-  return pre.concat(file);
-}, []);
+  const file = require(cur).default
+  return pre.concat(file)
+}, [])
 
 // 不能以斜杠结尾
-const apiServer = process.env.API_SERVER;
+const apiServer = process.env.API_SERVER
 // 必须以斜杠结尾
 
 const config = {
   aliIconFont: '',
-  env: proxyConfig,
-};
+  env: proxyConfig
+}
 
 let axios = {
-  proxy: true,
-};
+  proxy: true
+}
 
 // 如果生产指定apiServer, 则使用绝对路径请求api
 if (isProd && apiServer) {
   axios = {
     proxy: false,
-    baseURL: apiServer,
-  };
+    baseURL: apiServer
+  }
 }
 
 const nuxtConfig = {
@@ -61,15 +60,15 @@ const nuxtConfig = {
   mode: 'spa',
   env: {
     NO_LOGIN: process.env.NO_LOGIN,
-    COOKIE_PATH: process.env.COOKIE_PATH || '/',
+    COOKIE_PATH: process.env.COOKIE_PATH || '/'
   },
   proxy: config.env[env.MODE],
   router: {
     middleware: ['meta', 'auth'],
     mode: 'hash',
     extendRoutes(r) {
-      r.unshift(...routes);
-    },
+      r.unshift(...routes)
+    }
   },
   /*
    ** Build configuration
@@ -84,9 +83,9 @@ const nuxtConfig = {
       config.externals = {
         vue: 'Vue',
         '@femessage/element-ui': 'ELEMENT',
-        'element-ui': 'ELEMENT',
-      };
-      config.module.rules = config.module.rules.filter(item => !item.test.test('.svg'));
+        'element-ui': 'ELEMENT'
+      }
+      config.module.rules = config.module.rules.filter(item => !item.test.test('.svg'))
 
       config.module.rules.push(
         {
@@ -94,17 +93,17 @@ const nuxtConfig = {
           loader: 'svg-sprite-loader',
           include: [resolve('./icons')],
           options: {
-            symbolId: 'icon-[name]',
-          },
+            symbolId: 'icon-[name]'
+          }
         },
         {
           test: /\.ts$/,
           exclude: [/node_modules/, /vendor/, /\.nuxt/],
           loader: 'ts-loader',
           options: {
-            appendTsSuffixTo: [/\.vue$/],
-            transpileOnly: true,
-          },
+            appendTsSuffixTo: [/\.vue$/, /TSX\.vue$/],
+            transpileOnly: true
+          }
         },
         {
           test: /\.(png|jpe?g|gif|svg)$/,
@@ -114,12 +113,12 @@ const nuxtConfig = {
               loader: 'url-loader',
               options: {
                 limit: 10000, // 1K limit
-                name: 'img/[name].[hash:8].[ext]',
-              },
-            },
-          ],
-        },
-      );
+                name: 'img/[name].[hash:8].[ext]'
+              }
+            }
+          ]
+        }
+      )
 
       // Run ESLint on save
       // if (isDev && isClient) {
@@ -135,8 +134,8 @@ const nuxtConfig = {
       //     },
       //   });
       // }
-      isProd && (config.output.publicPath = publicPath);
-    },
+      isProd && (config.output.publicPath = publicPath)
+    }
   },
   /*
    ** Headers of the page
@@ -145,80 +144,83 @@ const nuxtConfig = {
     title: 'SPaaS Console',
     meta: [
       {
-        charset: 'utf-8',
+        charset: 'utf-8'
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
+        content: 'width=device-width, initial-scale=1'
       },
       {
         'http-equiv': 'x-ua-compatible',
-        content: 'IE=edge, chrome=1',
+        content: 'IE=edge, chrome=1'
       },
       {
         hid: 'description',
         name: 'description',
-        content: 'SPaaS Console',
-      },
+        content: 'SPaaS Console'
+      }
     ],
     link: [
       {
         rel: 'icon',
-        type: 'image/x-icon',
+        type: 'image/x-icon'
       },
       {
         rel: 'stylesheet',
         type: 'text/css',
-        href: '//cdn.jsdelivr.net/npm/@spaas/spaas-theme-chalk@2.12.3/lib/index.css',
-      },
+        href: '//cdn.jsdelivr.net/npm/@spaas/spaas-theme-chalk@2.12.3/lib/index.css'
+      }
     ],
     script: [
       {
         type: 'text/javascript',
-        src: '//cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js',
+        src: '//cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js'
       },
       {
         type: 'text/javascript',
-        src: '//cdn.jsdelivr.net/npm/@femessage/element-ui@2.12.3/lib/index.js',
-      },
-    ],
+        src: '//cdn.jsdelivr.net/npm/@femessage/element-ui@2.12.3/lib/index.js'
+      }
+    ]
   },
   /*
    ** Customize the progress bar color
    */
   loading: {
-    color: '#5D81F9',
+    color: '#5D81F9'
   },
   /**
    * Share variables, mixins, functions across all style files (no @import needed)
    * @Link https://github.com/nuxt-community/style-resources-module/
    */
   styleResources: {
-    less: '~styles/var.less',
+    less: '~styles/var.less'
   },
   css: [
     {
       src: '~styles/global.less',
-      lang: 'less',
-    },
+      lang: 'less'
+    }
   ],
   plugins: [
+    {
+      src: '~/plugins/apiInject'
+    },
     {
       src: '~/plugins/axios-port.js',
     },
     {
-      src: '~/plugins/axios',
+      src: '~/plugins/axios'
     },
     {
-      src: '~/plugins/element',
+      src: '~/plugins/element'
     },
     {
-      src: '~/plugins/store',
+      src: '~/plugins/store'
     },
     {
-      src: '~/plugins/router',
+      src: '~/plugins/router'
     },
-    '~/plugins/globalPlugin',
+    '~/plugins/globalPlugin'
   ],
   modules: [
     '@nuxtjs/style-resources',
@@ -226,12 +228,12 @@ const nuxtConfig = {
     [
       '@nuxtjs/dotenv',
       {
-        path: './',
-      },
-    ],
+        path: './'
+      }
+    ]
   ],
   buildModules: ['@nuxt/typescript-build'],
   axios,
 };
 
-module.exports = nuxtConfig;
+module.exports = nuxtConfig

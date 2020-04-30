@@ -15,56 +15,40 @@
   </div>
 </template>
 
-<script>
-// import ElTabs from 'element-ui/lib/tabs'
-// import ElTabPane from 'element-ui/lib/tab-pane'
-// import tabCss from 'element-ui/lib/theme-chalk/tabs.css'
-// import tabPaneCss from 'element-ui/lib/theme-chalk/tab-pane.css'
-import Vue from 'vue';
-import {Tabs, TabPane} from '@femessage/element-ui';
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-Vue.use(Tabs);
-Vue.use(TabPane);
+interface Item {
+  name: string
+  path: string
+  disabled: boolean
+  closable: boolean
+}
 
-export default {
-  name: 'RouteTab',
-  //  components: {ElTabs, ElTabPane},
-  props: {
-    // el-tabs attribute
-    tab: {
-      type: Object,
-    },
-    routes: {
-      type: Array,
-      default() {
-        return [
-          // tab 名字跟对应路由
-          // 后面两个对应 el-tab-pane attribute
-          {
-            name: '',
-            path: '',
-            disabled: false,
-            closable: false,
-          },
-        ];
-      },
-    },
-  },
-  computed: {
-    active: {
-      get() {
-        return this.$route.path;
-      },
-      set(path) {
-        this.$router.push({
-          path,
-          query: this.$route.query,
-        });
-      },
-    },
-  },
-};
+@Component
+export default class RouteTab extends Vue {
+  @Prop({ default: () => {} }) private tab!: object;
+  @Prop({
+    default: () => {
+      return []
+    }
+  })
+  private routes!: Array<Item>;
+
+  // 计算属性
+  get active(): string {
+    return this.$route.path
+  }
+
+  set active(path: string) {
+    this.$router.push({
+      path,
+      query: this.$route.query
+    })
+  }
+}
 </script>
+
 <style lang="less">
 .route-tab {
   .el-tabs__header.is-top {

@@ -20,40 +20,31 @@
   </el-popover>
 </template>
 
-<script>
-import {Popover} from '@femessage/element-ui';
-import clipboard from '@/utils/clipboard';
-import PackageJson from '@/../package.json';
-import routerJson from '@/const/route-info.json';
+<script lang="ts">
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import clipboard from '@/utils/clipboard'
+import PackageJson from '@/../package.json'
+import routerJson from '@/const/route-info.json'
 
-export default {
-  name: 'dowloadButton',
-  components: {
-    ElPopover: Popover,
-  },
-  data() {
-    const {name} = PackageJson;
-    return {
-      moduleName: name,
-      modulePath: '',
-    };
-  },
-  watch: {
-    $route: {
-      handler() {
-        const {path} = this.$route;
-        const {modulePath} = routerJson[path] || {};
-        this.modulePath = modulePath;
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    handleClipboard(text, event) {
-      clipboard(text, event);
-    },
-  },
-};
+@Component({
+  name: 'dowloadButton'
+})
+export default class extends Vue {
+  moduleName: string = PackageJson.name;
+
+  modulePath = '';
+
+  @Watch('$route', { immediate: true, deep: true })
+  changeRoute() {
+    const { path } = this.$route
+    const { modulePath } = routerJson[path] || {}
+    this.modulePath = modulePath
+  }
+
+  handleClipboard(text, event) {
+    clipboard(text, event)
+  }
+}
 </script>
 
 <style lang="less">

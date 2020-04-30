@@ -2,11 +2,24 @@
 
 1.安装所需插件
 
-- npm i -D @nuxt/typescript ts-node @types/node @nuxt/typescript-build @nuxt/types
-- npm install -S  vue-property-decorator 
+- yarn add -D @nuxt/typescript ts-node @types/node @nuxt/typescript-build @nuxt/types @nuxt/typescript-runtime
+- yarn add  vue-property-decorator
 
 2.[ts语法糖](https://github.com/kaorun343/vue-property-decorator)
 
+3.在 nuxt.config.js 文件中配置 ts 的 loader
+```js
+{
+    test: /\.ts$/,
+    exclude: [/node_modules/, /vendor/, /\.nuxt/],
+    loader: 'ts-loader',
+    options: {
+      appendTsSuffixTo: [/\.vue$/, /TSX\.vue$/],
+      transpileOnly: true,
+    },
+ }
+   ```
+以及添加 **buildModules: ['@nuxt/typescript-build']**
 
 ### nuxt已经支持lang="ts/tsx"写法
 

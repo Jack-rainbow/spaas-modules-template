@@ -24,3 +24,7 @@ package-lock.json
 
 # template
 template
+
+.mocks/
+# yarn
+yarn-error.log

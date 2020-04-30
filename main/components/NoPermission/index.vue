@@ -1,31 +1,27 @@
-<script lang="tsx">
-import {Vue, Component, Prop, Emit} from 'vue-property-decorator';
-import noLimit from './images/noLimit.png';
+<template>
+  <div class="no-permission-component">
+    <img :src="noLimit" alt="您暂时没有查看的权限" class="img-block" />
+    <p class="sorry-info">抱歉，您暂时没有查看的权限</p>
+    <el-button type="primary" @click="goBackToIndex">返回首页</el-button>
+  </div>
+</template>
 
-@Component({})
-export default class NoPermiss extends Vue {
-  private noLimit;
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import noLimit from './images/noLimit.png'
 
-  @Prop(Function) readonly goIndex;
+@Component
+export default class NoPermission extends Vue {
+  @Prop() private goIndex!: Function;
 
-  @Emit()
-  goBackToIndex() {
+  private noLimit: string = noLimit;
+
+  private goBackToIndex() {
     if (this.goIndex) {
-      this.goIndex();
+      this.goIndex()
     } else {
-      this.$router.replace('/');
+      this.$router.replace('/')
     }
-  }
-  render() {
-    return (
-      <div class="no-permission-component">
-        <img src={noLimit} alt="您暂时没有查看的权限" class="img-block" />
-        <p class="sorry-info">抱歉，您暂时没有查看的权限</p>
-        <el-button type="primary" onclick={this.goBackToIndex}>
-          返回首页
-        </el-button>
-      </div>
-    );
   }
 }
 </script>

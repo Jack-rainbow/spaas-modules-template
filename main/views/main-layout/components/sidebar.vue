@@ -35,42 +35,48 @@
   </div>
 </template>
 
-<script>
-import {mapState} from 'vuex';
-import MenuList from '@/components/menu-list';
-import variables from '@/styles/export.less';
-import Scrollbar from '@/components/scrollbar/index.js';
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
-export default {
+import { mapState } from 'vuex'
+import MenuList from '@/components/menu-list/index.vue'
+import variables from '@/styles/export.less'
+import Scrollbar from '@/components/scrollbar/index'
+
+@Component({
   name: 'Sidebar',
-  data() {
-    return {
-      variables,
-    };
-  },
   components: {
     MenuList,
-    Scrollbar,
-  },
-  computed: {
-    ...mapState(['permission', 'setting']),
-    appName() {
-      return this.permission.spaName;
-    },
-    appIcon() {
-      return this.permission.spaIcon;
-    },
-  },
-  methods: {
-    toggleCollapse() {
-      this.$store.commit('update', {
-        setting: {
-          collapse: !this.setting.collapse,
-        },
-      });
-    },
-  },
-};
+    Scrollbar
+  }
+})
+export default class Sidebar extends Vue {
+  variables = variables;
+
+  get permission() {
+    return this.$store.state.permission
+  }
+
+  get setting() {
+    return this.$store.state.setting
+  }
+
+  get appName() {
+    return this.permission.spaName
+  }
+
+  get appIcon() {
+    return this.permission.spaIcon
+  }
+
+  toggleCollapse() {
+    this.$store.commit('update', {
+      setting: {
+        collapse: !this.setting.collapse
+      }
+    })
+  }
+}
 </script>
 
 <style lang="less">
