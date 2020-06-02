@@ -1,4 +1,4 @@
-import {Vue, Component, Prop} from 'vue-property-decorator';
+import {Vue, Component, Prop } from 'vue-property-decorator';
 
 import {on, off, renderThumbStyle, BAR_MAP} from './utils/util';
 
@@ -7,7 +7,6 @@ import {on, off, renderThumbStyle, BAR_MAP} from './utils/util';
   name: 'Bar',
 })
 export default class Bar extends Vue{
-  
   @Prop() vertical?: boolean
   @Prop() size?: string
   @Prop() move?: number

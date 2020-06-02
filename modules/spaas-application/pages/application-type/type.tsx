@@ -1,11 +1,11 @@
-<script lang="tsx">
 import { Vue, Component } from 'vue-property-decorator'
 @Component({})
 export default class FilterItem extends Vue {
-  protected render() {
+  protected render(h) {
     return (
-      <div> 222</div>
+      <div>
+        <div>这条是jsx</div>
+      </div>
     )
   }
 }
-</script>
